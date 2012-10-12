@@ -5,5 +5,4 @@ require 'rubygems'
 require 'thor'
 require 'paprika'
 
-Paprika::Generator.start
 Paprika::Tasks.start

@@ -6,12 +6,12 @@ module Paprika
 
   class Generator < Thor::Group
     include Thor::Actions
-    namespace "generator"
+    namespace "generate"
     desc "Generate a Chrome extension"
 
     argument :name, :type => :string, :desc => "Name of the extension", :default => "My First Extension"
     argument :description, :type => :string, :desc => "Description of the extension", :default => "The first extension that I made."
-    source_root File.expand_path("../../templates", __FILE__)
+    source_root File.expand_path("../../../templates", __FILE__)
 
     class_option :popup, :default => true, :type => :boolean
     class_option :options, :default => false, :type => :boolean

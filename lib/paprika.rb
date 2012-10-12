@@ -38,5 +38,8 @@ module Paprika
         run "chrome.exe --pack-extension=\"#{extension_path}\""
       end
     end
+
+    Paprika::Tasks.register Paprika::Generator, :generate, "generate", "print more stuff"
+    Paprika::Tasks.tasks["generate"].options = Paprika::Generator.class_options
   end
 end
