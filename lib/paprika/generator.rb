@@ -31,8 +31,9 @@ module Paprika
       self.destination_root = name
     end
 
-    def create_icon
+    def create_default_files
       copy_file "icon.png"
+      copy_file "_mixins.sass", "stylesheet/_mixins.sass"
     end
 
     def create_manifest
@@ -48,7 +49,10 @@ module Paprika
     end
 
     def create_popup_haml
-      copy_file "popup.haml", "views/popup.haml" if options[:popup]
+      if options[:popup]
+        copy_file "popup.haml", "views/popup.haml"
+        copy_file "popup.sass", "stylesheet/popup.sass"
+      end
     end
 
     def create_content_js
@@ -56,18 +60,14 @@ module Paprika
     end
 
     def create_options_haml
-      copy_file "options.haml", "views/options.haml" if options[:options]
+      if options[:options]
+        template "options.haml", "views/options.haml"
+        copy_file "options.sass", "stylesheet/options.sass"
+      end
     end
 
     def create_options_js
       copy_file "options.js", "javascripts/options.js" if options[:options]
-    end
-
-    def add_gemfile
-      copy_file "Gemfile"
-      inside do
-        run "bundle install"
-      end
     end
   end
 end

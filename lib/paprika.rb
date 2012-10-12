@@ -1,4 +1,5 @@
 require 'haml'
+require 'sass'
 require 'paprika/generator'
 
 module Paprika
@@ -17,9 +18,9 @@ module Paprika
       end
 
       Dir["**/*.sass"].each do |file|
-        css_file = file.sub /\.haml$/, '.html'
+        css_file = file.sub /\.sass$/, '.css'
         template = File.read(file)
-        sass_engine = Sass::Engine.new(template)
+        sass_engine = Sass::Engine.new(template, :filename => file)
         output = sass_engine.render
         File.open(css_file, "w") { |f| f.write output }
         puts "Compile >> #{file}"
@@ -39,7 +40,7 @@ module Paprika
       end
     end
 
-    Paprika::Tasks.register Paprika::Generator, :generate, "generate", "print more stuff"
+    Paprika::Tasks.register Paprika::Generator, :generate, "generate", "Generate a Chrome extension"
     Paprika::Tasks.tasks["generate"].options = Paprika::Generator.class_options
   end
 end

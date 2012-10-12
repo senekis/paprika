@@ -1,1 +1,20 @@
- 
+!!!
+%html
+  %head
+    %meta{:charset => "utf-8"}
+    %title <%= name %>
+    / JavaScript and HTML must be in separate files for security.
+    %link{:rel => "stylesheet", :href => "../stylesheet/options.css"}
+    %script{:src => "../javascripts/vendor/jquery.js"}
+    %script{:src => "../javascripts/options.js"}
+    %script{:type => "text/javascript", :src => "https://ssl.google-analytics.com/ga.js"}
+  %body
+    .wrapper
+      .header
+        %h1 <%= name %>
+      .options
+        %fieldset
+          %legend
+            Settings
+          %input#foo{:name => "foo", :type => "text"}/
+          %button#save Save

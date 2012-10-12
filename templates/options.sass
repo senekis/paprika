@@ -1,0 +1,45 @@
+@import "mixins"
+
+body
+  background: #E8E2D5
+  font: 13px/1.5 Helvetica,arial,sans-serif
+
+.wrapper
+  width: 550px
+  margin: 40px auto 80px auto
+  border: 1px solid white
+  background-color: white
+  @include border-radius(5px)
+  @include box-shadow(#404040 0 5px 10px)
+
+.header
+  position: relative
+  @include gradient-horizontal(white, #ECEFF5)
+  border-bottom: 1px solid #DDD
+  @include border-top-left-radius(5px)
+  @include border-top-right-radius(5px)
+
+  h1
+    margin: 0
+    line-height: 40px
+    text-indent: 10px
+    font-size: 20px
+    font-weight: 400
+    color: #5D758A
+    text-shadow: 0 1px 0 white
+    font-weight: bold
+
+.options
+  padding: 30px 10px 10px 10px
+  position: relative
+
+  fieldset
+    border: 1px solid #EEE
+    @include border-radius(5px)
+    margin-bottom: 20px
+    padding: 10px
+
+    legend
+      color: #999
+      font-size: 15px
+      padding: 0 5px
