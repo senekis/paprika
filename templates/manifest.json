@@ -3,15 +3,19 @@
   "version": "1.0",
   "manifest_version": 2,
   "description": "<%= description %>",
-  "icons": {"48": "icon.png"}<%-if options[:option] %>,
-  "options_page": "options.html"<% end %>,
+  "icons": {"48": "icon.png"}<%-if options[:popup] %>,
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  }<% end %>,
   "content_scripts": [
     {
       // URL page where the script will be injected
       "matches": ["http://senekis.co/*"],
       "js": ["jquery.js", "content.js"]
     }
-  ]<%-if options[:background_js] %>,
+  ]<%-if options[:options] %>,
+  "options_page": "options.html"<% end %><%-if options[:background_js] %>,
   "background": {
     "scripts": ["background.js"]
   }<% end %>

@@ -11,8 +11,8 @@ module Paprika
     argument :description, :type => :string, :desc => "Description of the extension", :default => "The first extension that I made."
     source_root File.expand_path("../../templates", __FILE__)
 
-    class_option :content_view, :default => true, :type => :boolean
-    class_option :option, :default => false, :type => :boolean
+    class_option :popup, :default => true, :type => :boolean
+    class_option :options, :default => false, :type => :boolean
     class_option :background, :default => false, :type => :boolean
 
     def create_tree
@@ -42,11 +42,11 @@ module Paprika
     end
 
     def create_background
-      template "background.js", "javascripts/background.js" if options[:option] || options[:background]
+      template "background.js", "javascripts/background.js" if options[:options] || options[:background]
     end
 
-    def create_content_haml
-      copy_file "content.haml", "javascripts/content.haml" if options[:content_view]
+    def create_popup_haml
+      copy_file "popup.haml", "views/popup.haml" if options[:popup]
     end
 
     def create_content_js
@@ -54,11 +54,11 @@ module Paprika
     end
 
     def create_options_haml
-      template "options.haml", "views/options.haml" if options[:option]
+      template "options.haml", "views/options.haml" if options[:options]
     end
 
     def create_options_js
-      template "options.js", "javascripts/options.js" if options[:option]
+      template "options.js", "javascripts/options.js" if options[:options]
     end
   end
 end
