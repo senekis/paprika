@@ -3,6 +3,8 @@ require 'paprika/generator'
 
 module Paprika
   class Tasks < Thor
+    include Thor::Actions
+
     desc "compile", "Compile sass and haml"
     def compile
       Dir["**/*.haml"].each do |file|
@@ -27,7 +29,14 @@ module Paprika
     desc "pack_extension", "Package your extension - file extension 'crx'"
     method_option :extension_path, :aliases => "-f", :desc => "Location of the extension's folder"
     def pack_extension(extension_path)
-      run "google-chrome --pack-extension=#{extension_path}"
+      case RUBY_PLATFORM
+      when /linux/
+        run "google-chrome --pack-extension=\"#{extension_path}\""
+      when /darwin/
+        run "open -a 'Google Chrome' --pack-extension=\"#{extension_path}\""
+      else
+        run "chrome.exe --pack-extension=\"#{extension_path}\""
+      end
     end
   end
 end
