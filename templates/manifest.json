@@ -6,18 +6,18 @@
   "icons": {"48": "icon.png"}<%-if options[:popup] %>,
   "browser_action": {
     "default_icon": "icon.png",
-    "default_popup": "popup.html"
+    "default_popup": "views/popup.html"
   }<% end %>,
   "content_scripts": [
     {
       // URL page where the script will be injected
       "matches": ["http://senekis.co/*"],
-      "js": ["jquery.js", "content.js"]
+      "js": ["javascripts/vendor/jquery.js", "javascripts/content.js"]
     }
   ]<%-if options[:options] %>,
-  "options_page": "options.html"<% end %><%-if options[:background_js] %>,
+  "options_page": "views/options.html"<% end %><%-if options[:background_js] %>,
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["javascripts/background.js"]
   }<% end %>
   //
   // "permissions": [
