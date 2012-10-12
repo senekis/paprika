@@ -4,8 +4,19 @@
   "manifest_version": 2,
   "description": "<%= description %>",
   "icons": {"48": "icon.png"}<%-if options[:option] %>,
-  "options_page": "options.html"<% end %><%-if options[:background] %>,
+  "options_page": "options.html"<% end %>,
+  "content_scripts": [
+    {
+      // URL page where the script will be injected
+      "matches": ["http://senekis.co/*"],
+      "js": ["jquery.js", "content.js"]
+    }
+  ]<%-if options[:background_js] %>,
   "background": {
     "scripts": ["background.js"]
   }<% end %>
+  //
+  // "permissions": [
+  //   "tabs", "http://senekis.co/*"
+  // ]
 }
