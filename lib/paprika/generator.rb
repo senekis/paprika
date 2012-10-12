@@ -6,7 +6,7 @@ module Paprika
 
   class Generator < Thor::Group
     include Thor::Actions
-    namespace ""
+    namespace "generator"
     desc "Generate a Chrome extension"
 
     argument :name, :type => :string, :desc => "Name of the extension", :default => "My First Extension"

@@ -1,64 +1,33 @@
-require 'thor/group'
+require 'haml'
+require 'paprika/generator'
 
 module Paprika
-  class DirAlreadyExists < StandardError
-  end
-
-  class Generator < Thor::Group
-    include Thor::Actions
-    namespace ""
-    argument :name, :type => :string, :desc => "Name of the extension", :default => "My First Extension"
-    argument :description, :type => :string, :desc => "Description of the extension", :default => "The first extension that I made."
-    source_root File.expand_path("../../templates", __FILE__)
-
-    class_option :popup, :default => true, :type => :boolean
-    class_option :options, :default => false, :type => :boolean
-    class_option :background, :default => false, :type => :boolean
-
-    def create_tree
-      unless File.exists?(name) || File.directory?(name)
-        Dir.mkdir name
-      else
-        raise DirAlreadyExists, "The directory #{name} already exists, aborting. Maybe move it out of the way before continuing?"
+  class Tasks < Thor
+    desc "compile", "Compile sass and haml"
+    def compile
+      Dir["**/*.haml"].each do |file|
+        html_file = file.sub /\.haml$/, '.html'
+        template = File.read(file)
+        haml_engine = Haml::Engine.new(template, :filename => file)
+        output = haml_engine.render
+        File.open(html_file, "w") { |f| f.write output }
+        puts "Compile >> #{file}"
       end
 
-      Dir.mkdir "#{name}/views"
-      Dir.mkdir "#{name}/stylesheet"
-      Dir.mkdir "#{name}/javascripts"
-      Dir.mkdir "#{name}/javascripts/vendor"
-      self.destination_root = name
+      Dir["**/*.sass"].each do |file|
+        css_file = file.sub /\.haml$/, '.html'
+        template = File.read(file)
+        sass_engine = Sass::Engine.new(template)
+        output = sass_engine.render
+        File.open(css_file, "w") { |f| f.write output }
+        puts "Compile >> #{file}"
+      end
     end
 
-    def create_icon
-      copy_file "icon.png"
-    end
-
-    def create_manifest
-      template "manifest.json"
-    end
-
-    def copy_vendors
-      copy_file "vendor/jquery.js", "javascripts/vendor/jquery.js"
-    end
-
-    def create_background
-      template "background.js", "javascripts/background.js" if options[:options] || options[:background]
-    end
-
-    def create_popup_haml
-      copy_file "popup.haml", "views/popup.haml" if options[:popup]
-    end
-
-    def create_content_js
-      template "content.js", "javascripts/content.js"
-    end
-
-    def create_options_haml
-      template "options.haml", "views/options.haml" if options[:options]
-    end
-
-    def create_options_js
-      template "options.js", "javascripts/options.js" if options[:options]
+    desc "pack_extension", "Package your extension - file extension 'crx'"
+    method_option :extension_path, :aliases => "-f", :desc => "Location of the extension's folder"
+    def pack_extension(extension_path)
+      run "google-chrome --pack-extension=#{extension_path}"
     end
   end
 end
